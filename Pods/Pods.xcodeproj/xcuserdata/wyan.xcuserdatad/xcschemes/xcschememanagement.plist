@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CYLTabBarController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DZNEmptyDataSet.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -24,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Toast.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,6 +47,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>09846A0F46988573DAEDDD6B55466BEA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>146D4D3BEC39209E7FD55AD619B9712E</key>
 		<dict>
 			<key>primary</key>
@@ -42,17 +62,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>55879DEEBAC6D6BF19C91581C44CC950</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>6095DE398C2BCE7C24317310CA12FDDD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E3A7EE3273ABD3CC8BBBC34C3411BAF5</key>
+		<key>736E57AD5AEFAAF68D47AE4E8FCB8F68</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C1D30620984FFC5AA8112191A5405BC1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DF98428995A1DE7D674AEEDEB344021D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC470A4756CE9ED7D70B6410E491D98B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

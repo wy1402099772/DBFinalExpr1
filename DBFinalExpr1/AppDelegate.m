@@ -8,8 +8,12 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "CYLTabBarController.h"
+#import "GoodsCollectionViewController.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) CYLTabBarController *tabBarController;
 
 @end
 
@@ -21,6 +25,11 @@
     
     [Parse setApplicationId:@"dmTSjbYuvisrfUQAO9zxn2uyVxPQzUYjfo3fpmNk" clientKey:@"pNeLExhgqBEd2CJQSGjG3bO7aVA4GwzFLU9lnMbu"];
     
+    
+    [self setupViewControllers];
+    [self customizeTabBarForController:self.tabBarController];
+    
+    [self.window setRootViewController:self.tabBarController];
     
     return YES;
 }
@@ -45,6 +54,48 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)setupViewControllers {
+    GoodsCollectionViewController *firstViewController = [[GoodsCollectionViewController alloc] init];
+    UIViewController *firstNavigationController = [[UINavigationController alloc]
+                                                   initWithRootViewController:firstViewController];
+    
+    UIViewController *secondViewController = [[UIViewController alloc] init];
+    UIViewController *secondNavigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:secondViewController];
+    
+    
+    CYLTabBarController *tabBarController = [[CYLTabBarController alloc] init];
+    [self customizeTabBarForController:tabBarController];
+    
+    [tabBarController setViewControllers:@[
+                                           firstNavigationController,
+                                           secondNavigationController,
+                                           ]];
+    self.tabBarController = tabBarController;
+}
+
+/*
+ *
+ 在`-setViewControllers:`之前设置TabBar的属性，
+ *
+ */
+- (void)customizeTabBarForController:(CYLTabBarController *)tabBarController {
+    
+    NSDictionary *dict1 = @{
+                            CYLTabBarItemTitle : @"购物",
+                            CYLTabBarItemImage : @"image_main_shop",
+                            CYLTabBarItemSelectedImage : @"image_main_shop",
+                            };
+    NSDictionary *dict2 = @{
+                            CYLTabBarItemTitle : @"购物车",
+                            CYLTabBarItemImage : @"image_shop_car",
+                            CYLTabBarItemSelectedImage : @"image_shop_car",
+                            };
+    
+    NSArray *tabBarItemsAttributes = @[ dict1, dict2 ];
+    tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
 }
 
 @end
