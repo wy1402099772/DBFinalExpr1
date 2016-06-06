@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "CYLTabBarController.h"
 #import "GoodsCollectionViewController.h"
+#import "LoginViewController.h"
 
 @interface AppDelegate ()
 
@@ -29,7 +30,8 @@
     [self setupViewControllers];
     [self customizeTabBarForController:self.tabBarController];
     
-    [self.window setRootViewController:self.tabBarController];
+//    [self.window setRootViewController:self.tabBarController];
+    [self.window setRootViewController:[[LoginViewController alloc] init]];
     
     return YES;
 }
