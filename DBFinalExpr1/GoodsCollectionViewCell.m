@@ -10,6 +10,9 @@
 #import "Masonry.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "GoodModel.h"
+#import "UserHelper.h"
+#import "UIView+Toast.h"
+#import "CCommon.h"
 
 @interface GoodsCollectionViewCell ()
 
@@ -19,6 +22,7 @@
 @property (nonatomic, strong) UILabel *classifyLabel;
 @property (nonatomic, strong) UIImageView *avatarImage;
 @property (nonatomic, strong) UIButton *addToShopCar;
+@property (nonatomic, strong) GoodModel *model;
 
 @end
 
@@ -122,8 +126,24 @@
     }];
 }
 
+- (void)addIntoShoppingCart:(UIButton *)sender
+{
+    [[CCommon getTopmostViewController].view makeToastActivity:CSToastPositionCenter];
+    [[UserHelper sharedInstance] addGood:self.model.goodID withBlock:^(NSError *error) {
+        NSString *message;
+        if(error)
+            message = @"加入失败";
+        else
+            message = @"已加入购物车";
+        [[CCommon getTopmostViewController].view hideToastActivity];
+        
+        [[CCommon getTopmostViewController].view makeToast:message duration:1.5f position:CSToastPositionCenter];
+    }];
+}
+
 - (void)loadData:(GoodModel *)model withMode:(NSUInteger)mode
 {
+    self.model = model;
     [self configureViewWithMode:mode];
     
     if(model.images.count)
@@ -201,6 +221,7 @@
     {
         _addToShopCar = [[UIButton alloc] init];
         [_addToShopCar setImage:[UIImage imageNamed:@"image_shop_add"] forState:UIControlStateNormal];
+        [_addToShopCar addTarget:self action:@selector(addIntoShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addToShopCar;
 }

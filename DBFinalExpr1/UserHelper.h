@@ -20,6 +20,6 @@ typedef void (^CompletionBlock) (NSError *error);
 
 - (void)signupWithUsername:(NSString *)username password:(NSString *)password withBlock:(CompletionBlock)block;
 
-- (void)purchaseGood:(NSString *)goodID withBlock:(CompletionBlock)block;
+- (void)addGood:(NSString *)goodID withBlock:(CompletionBlock)block;
 
 @end

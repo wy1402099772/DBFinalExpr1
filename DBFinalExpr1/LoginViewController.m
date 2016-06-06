@@ -154,9 +154,9 @@
         [self.view makeToast:NSLocalizedString(@"Username and Password can't be empty!", nil) duration:2.0 position:@"center"];
         return;
     }
-    
+    [self.view makeToastActivity:CSToastPositionCenter];
     [[UserHelper sharedInstance] loginWithUsername:self.usernameTextField.textField.text password:self.passwordTextField.textField.text withBlock:^(NSError *error) {
-        
+        [self.view hideToastActivity];
         if(error)
         {
             NSString *message = @"登录失败， 请检查账号及密码是否正确";
@@ -179,8 +179,9 @@
         return;
     }
     
+    [self.view makeToastActivity:CSToastPositionCenter];
     [[UserHelper sharedInstance] signupWithUsername:self.usernameTextField.textField.text password:self.passwordTextField.textField.text withBlock:^(NSError *error) {
-        
+        [self.view hideToastActivity];
         if(error)
         {
             NSString *message = @"注册失败,是否已经注册？";

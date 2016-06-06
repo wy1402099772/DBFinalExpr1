@@ -25,6 +25,14 @@
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password withBlock:(CompletionBlock)block
 {
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
+        if(error)
+        {
+            _username = nil;
+        }
+        else
+        {
+            _username = [user objectForKey:kParseUserUsername];
+        }
         if(block)
             block(error);
     }];
@@ -41,10 +49,10 @@
     }];
 }
 
-- (void)purchaseGood:(NSString *)goodID withBlock:(CompletionBlock)block
+- (void)addGood:(NSString *)goodID withBlock:(CompletionBlock)block
 {
     PFObject *purchaseLog = [PFObject objectWithClassName:kParseShoppingCart];
-    [purchaseLog setObject:goodID forKey:kParseShoppingCart];
+    [purchaseLog setObject:goodID forKey:kParseShoppingCartGoodID];
     [purchaseLog setObject:self.username forKey:kParseShoppingCartUserName];
     [purchaseLog saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
         if(block)

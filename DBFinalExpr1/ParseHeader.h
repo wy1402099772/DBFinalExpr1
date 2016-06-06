@@ -17,6 +17,10 @@
 #define     ParseGoodsClassify          @"classify"
 #define     ParseGoodsImages            @"images"
 
+#define     kParseUser                  @"User"
+#define     kParseUserUsername          @"username"
+#define     kParseUserPassword          @"password"
+
 #define     kParseShoppingCart          @"ShoppingCart"
 #define     kParseShoppingCartUserName  @"username"
 #define     kParseShoppingCartGoodID    @"goodID"
