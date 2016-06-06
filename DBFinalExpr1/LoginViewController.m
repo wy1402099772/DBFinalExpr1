@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "Masonry.h"
 #import "UIView+Toast.h"
+#import "UserHelper.h"
 
 @interface LoginTextView ()
 
@@ -129,6 +130,7 @@
 @property (nonatomic, strong) LoginTextView     *usernameTextField;
 @property (nonatomic, strong) LoginTextView     *passwordTextField;
 @property (nonatomic, strong) UIButton          *loginButton;
+@property (nonatomic, strong) UIButton          *singupButton;
 @property (nonatomic, strong) UIButton          *showPasswordButton;
 @property (nonatomic, strong) UILabel           *showPasswordLable;
 
@@ -153,7 +155,43 @@
         return;
     }
     
+    [[UserHelper sharedInstance] loginWithUsername:self.usernameTextField.textField.text password:self.passwordTextField.textField.text withBlock:^(NSError *error) {
+        
+        if(error)
+        {
+            NSString *message = @"登录失败， 请检查账号及密码是否正确";
+            [self.view makeToast:message duration:1.5f position:CSToastPositionCenter];
+        }
+        else
+        {
+            NSString *message = @"登录成功！";
+            [self.view makeToast:message duration:1.5f position:CSToastPositionCenter];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"Didlogin" object:nil];
+        }
+    }];
+}
+
+- (void)signup:(UIButton *)sender
+{
+    if (0 == self.usernameTextField.text.length || 0 == self.passwordTextField.text.length)
+    {
+        [self.view makeToast:NSLocalizedString(@"Username and Password can't be empty!", nil) duration:2.0 position:@"center"];
+        return;
+    }
     
+    [[UserHelper sharedInstance] signupWithUsername:self.usernameTextField.textField.text password:self.passwordTextField.textField.text withBlock:^(NSError *error) {
+        
+        if(error)
+        {
+            NSString *message = @"注册失败,是否已经注册？";
+            [self.view makeToast:message duration:1.5f position:CSToastPositionCenter];
+        }
+        else
+        {
+            NSString *message = @"注册成功，请登录！";
+            [self.view makeToast:message duration:1.5f position:CSToastPositionCenter];
+        }
+    }];
 }
 
 - (void)showPassword:(UIButton *)sender
@@ -227,6 +265,14 @@
         make.right.equalTo(self.containerView).with.offset(-60);
         make.height.mas_equalTo(36);
     }];
+    
+    [self.view addSubview:self.singupButton];
+    [self.singupButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.loginButton.mas_bottom).offset(10);
+        make.left.equalTo(self.containerView).with.offset(60);
+        make.right.equalTo(self.containerView).with.offset(-60);
+        make.height.mas_equalTo(36);
+    }];
 }
 
 #pragma mark - getter
@@ -265,6 +311,20 @@
         [_loginButton addTarget:self action:@selector(onLogin:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginButton;
+}
+
+- (UIButton *)singupButton {
+    if (!_singupButton) {
+        _singupButton = [[UIButton alloc] init];
+        _singupButton.backgroundColor = [UIColor whiteColor];
+        _singupButton.layer.cornerRadius = 5.0f;
+        _singupButton.titleLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-Medium" size:16];
+        [_singupButton setTitleColor:[UIColor colorWithRed:0.436 green:0.670 blue:1.000 alpha:1.000] forState:UIControlStateNormal];
+        [_singupButton setTitle:NSLocalizedString(@"Sign Up", nil) forState:UIControlStateNormal];
+        
+        [_singupButton addTarget:self action:@selector(signup:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _singupButton;
 }
 
 - (UIButton *)showPasswordButton {

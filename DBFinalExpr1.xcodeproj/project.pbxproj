@@ -18,6 +18,7 @@
 		935E49D31D040422006109B4 /* GoodModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 935E49D21D040422006109B4 /* GoodModel.m */; };
 		935E49DA1D040721006109B4 /* GoodsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935E49D91D040721006109B4 /* GoodsCollectionViewController.m */; };
 		93C67A4D1D050E5300E01E25 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C67A4C1D050E5300E01E25 /* LoginViewController.m */; };
+		93C67A531D0514DE00E01E25 /* UserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C67A521D0514DE00E01E25 /* UserHelper.m */; };
 		93E35A621D041DEB00C91482 /* GoodsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E35A611D041DEB00C91482 /* GoodsCollectionViewCell.m */; };
 		ECBA5D519408036CF2113C73 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FFB56F274216B95CAC3370 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,8 @@
 		935E49D91D040721006109B4 /* GoodsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsCollectionViewController.m; sourceTree = "<group>"; };
 		93C67A4B1D050E5300E01E25 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		93C67A4C1D050E5300E01E25 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		93C67A511D0514DE00E01E25 /* UserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHelper.h; sourceTree = "<group>"; };
+		93C67A521D0514DE00E01E25 /* UserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHelper.m; sourceTree = "<group>"; };
 		93E35A601D041DEB00C91482 /* GoodsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsCollectionViewCell.h; sourceTree = "<group>"; };
 		93E35A611D041DEB00C91482 /* GoodsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsCollectionViewCell.m; sourceTree = "<group>"; };
 		C9FFB56F274216B95CAC3370 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +132,7 @@
 		935E499C1D027044006109B4 /* DBFinalExpr1 */ = {
 			isa = PBXGroup;
 			children = (
+				93C67A501D0514CC00E01E25 /* User */,
 				93C67A4A1D050E3C00E01E25 /* Login */,
 				935E49D01D0403F4006109B4 /* Goods */,
 				935E49A01D027044006109B4 /* AppDelegate.h */,
@@ -191,6 +195,15 @@
 				93C67A4C1D050E5300E01E25 /* LoginViewController.m */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		93C67A501D0514CC00E01E25 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				93C67A511D0514DE00E01E25 /* UserHelper.h */,
+				93C67A521D0514DE00E01E25 /* UserHelper.m */,
+			);
+			name = User;
 			sourceTree = "<group>";
 		};
 		ED8DB8C2E1F38570659BAF10 /* Pods */ = {
@@ -389,6 +402,7 @@
 				935E49DA1D040721006109B4 /* GoodsCollectionViewController.m in Sources */,
 				93C67A4D1D050E5300E01E25 /* LoginViewController.m in Sources */,
 				935E499F1D027044006109B4 /* main.m in Sources */,
+				93C67A531D0514DE00E01E25 /* UserHelper.m in Sources */,
 				93E35A621D041DEB00C91482 /* GoodsCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

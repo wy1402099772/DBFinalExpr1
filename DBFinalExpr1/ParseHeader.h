@@ -17,6 +17,8 @@
 #define     ParseGoodsClassify          @"classify"
 #define     ParseGoodsImages            @"images"
 
-
+#define     kParseShoppingCart          @"ShoppingCart"
+#define     kParseShoppingCartUserName  @"username"
+#define     kParseShoppingCartGoodID    @"goodID"
 
 #endif /* ParseHeader_h */

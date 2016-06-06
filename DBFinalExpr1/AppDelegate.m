@@ -26,11 +26,8 @@
     
     [Parse setApplicationId:@"dmTSjbYuvisrfUQAO9zxn2uyVxPQzUYjfo3fpmNk" clientKey:@"pNeLExhgqBEd2CJQSGjG3bO7aVA4GwzFLU9lnMbu"];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLoginCompletion) name:@"Didlogin" object:nil];
     
-    [self setupViewControllers];
-    [self customizeTabBarForController:self.tabBarController];
-    
-//    [self.window setRootViewController:self.tabBarController];
     [self.window setRootViewController:[[LoginViewController alloc] init]];
     
     return YES;
@@ -98,6 +95,15 @@
     
     NSArray *tabBarItemsAttributes = @[ dict1, dict2 ];
     tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
+}
+
+- (void)didLoginCompletion
+{
+    [self setupViewControllers];
+    [self customizeTabBarForController:self.tabBarController];
+    
+    [self.window setRootViewController:nil];
+    [self.window setRootViewController:self.tabBarController];
 }
 
 @end
