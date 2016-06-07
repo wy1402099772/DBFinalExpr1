@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		930B80681D064B6900C03A3F /* ShoppingCartCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930B80671D064B6900C03A3F /* ShoppingCartCollectionViewController.m */; };
+		930B806B1D064CCB00C03A3F /* ShoppingCartCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 930B806A1D064CCB00C03A3F /* ShoppingCartCollectionViewCell.m */; };
+		930B806E1D064D7E00C03A3F /* ShoppingCartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 930B806D1D064D7E00C03A3F /* ShoppingCartModel.m */; };
+		930B80711D06515B00C03A3F /* ShoppingCartDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 930B80701D06515B00C03A3F /* ShoppingCartDataController.m */; };
 		935E499F1D027044006109B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 935E499E1D027044006109B4 /* main.m */; };
 		935E49A21D027044006109B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 935E49A11D027044006109B4 /* AppDelegate.m */; };
 		935E49A51D027044006109B4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 935E49A41D027044006109B4 /* ViewController.m */; };
@@ -43,6 +47,14 @@
 
 /* Begin PBXFileReference section */
 		0FB8DEC7A5C2D2750E61D9BF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		930B80661D064B6900C03A3F /* ShoppingCartCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartCollectionViewController.h; sourceTree = "<group>"; };
+		930B80671D064B6900C03A3F /* ShoppingCartCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartCollectionViewController.m; sourceTree = "<group>"; };
+		930B80691D064CCB00C03A3F /* ShoppingCartCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartCollectionViewCell.h; sourceTree = "<group>"; };
+		930B806A1D064CCB00C03A3F /* ShoppingCartCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartCollectionViewCell.m; sourceTree = "<group>"; };
+		930B806C1D064D7E00C03A3F /* ShoppingCartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartModel.h; sourceTree = "<group>"; };
+		930B806D1D064D7E00C03A3F /* ShoppingCartModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartModel.m; sourceTree = "<group>"; };
+		930B806F1D06515B00C03A3F /* ShoppingCartDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartDataController.h; sourceTree = "<group>"; };
+		930B80701D06515B00C03A3F /* ShoppingCartDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartDataController.m; sourceTree = "<group>"; };
 		935E499A1D027044006109B4 /* DBFinalExpr1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DBFinalExpr1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		935E499E1D027044006109B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		935E49A01D027044006109B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -110,6 +122,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		930B80651D064B3600C03A3F /* ShoppingCart */ = {
+			isa = PBXGroup;
+			children = (
+				930B80661D064B6900C03A3F /* ShoppingCartCollectionViewController.h */,
+				930B80671D064B6900C03A3F /* ShoppingCartCollectionViewController.m */,
+				930B806C1D064D7E00C03A3F /* ShoppingCartModel.h */,
+				930B806D1D064D7E00C03A3F /* ShoppingCartModel.m */,
+				930B80691D064CCB00C03A3F /* ShoppingCartCollectionViewCell.h */,
+				930B806A1D064CCB00C03A3F /* ShoppingCartCollectionViewCell.m */,
+				930B806F1D06515B00C03A3F /* ShoppingCartDataController.h */,
+				930B80701D06515B00C03A3F /* ShoppingCartDataController.m */,
+			);
+			name = ShoppingCart;
+			sourceTree = "<group>";
+		};
 		935E49911D027044006109B4 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +162,7 @@
 		935E499C1D027044006109B4 /* DBFinalExpr1 */ = {
 			isa = PBXGroup;
 			children = (
+				930B80651D064B3600C03A3F /* ShoppingCart */,
 				93C67A581D05336B00E01E25 /* Utils */,
 				93C67A501D0514CC00E01E25 /* User */,
 				93C67A4A1D050E3C00E01E25 /* Login */,
@@ -410,11 +438,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				935E49D31D040422006109B4 /* GoodModel.m in Sources */,
+				930B806E1D064D7E00C03A3F /* ShoppingCartModel.m in Sources */,
+				930B80711D06515B00C03A3F /* ShoppingCartDataController.m in Sources */,
 				935E49A51D027044006109B4 /* ViewController.m in Sources */,
 				935E49A21D027044006109B4 /* AppDelegate.m in Sources */,
 				93C67A5B1D05338000E01E25 /* CCommon.m in Sources */,
+				930B806B1D064CCB00C03A3F /* ShoppingCartCollectionViewCell.m in Sources */,
 				935E49DA1D040721006109B4 /* GoodsCollectionViewController.m in Sources */,
 				93C67A4D1D050E5300E01E25 /* LoginViewController.m in Sources */,
+				930B80681D064B6900C03A3F /* ShoppingCartCollectionViewController.m in Sources */,
 				935E499F1D027044006109B4 /* main.m in Sources */,
 				93C67A531D0514DE00E01E25 /* UserHelper.m in Sources */,
 				93E35A621D041DEB00C91482 /* GoodsCollectionViewCell.m in Sources */,

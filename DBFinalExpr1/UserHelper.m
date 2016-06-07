@@ -51,12 +51,29 @@
 
 - (void)addGood:(NSString *)goodID withBlock:(CompletionBlock)block
 {
-    PFObject *purchaseLog = [PFObject objectWithClassName:kParseShoppingCart];
-    [purchaseLog setObject:goodID forKey:kParseShoppingCartGoodID];
-    [purchaseLog setObject:self.username forKey:kParseShoppingCartUserName];
-    [purchaseLog saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
-        if(block)
-            block(error);
+    PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
+    [query whereKey:kParseShoppingCartUserName equalTo:self.username];
+    [query whereKey:kParseShoppingCartGoodID equalTo:goodID];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if(error)
+        {
+            PFObject *purchaseLog = [PFObject objectWithClassName:kParseShoppingCart];
+            [purchaseLog setObject:goodID forKey:kParseShoppingCartGoodID];
+            [purchaseLog setObject:self.username forKey:kParseShoppingCartUserName];
+            [purchaseLog setObject:@1 forKey:kParseShoppingAmount];
+            [purchaseLog saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
+                if(block)
+                    block(error);
+            }];
+        }
+        else
+        {
+            [object incrementKey:kParseShoppingAmount byAmount:@1];
+            [object saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
+                if(block)
+                    block(error);
+            }];
+        }
     }];
 }
 

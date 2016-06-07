@@ -11,6 +11,7 @@
 #import "CYLTabBarController.h"
 #import "GoodsCollectionViewController.h"
 #import "LoginViewController.h"
+#import "ShoppingCartCollectionViewController.h"
 
 @interface AppDelegate ()
 
@@ -60,7 +61,7 @@
     UIViewController *firstNavigationController = [[UINavigationController alloc]
                                                    initWithRootViewController:firstViewController];
     
-    UIViewController *secondViewController = [[UIViewController alloc] init];
+    ShoppingCartCollectionViewController *secondViewController = [[ShoppingCartCollectionViewController alloc] init];
     UIViewController *secondNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:secondViewController];
     

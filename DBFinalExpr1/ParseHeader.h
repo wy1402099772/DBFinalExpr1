@@ -24,5 +24,6 @@
 #define     kParseShoppingCart          @"ShoppingCart"
 #define     kParseShoppingCartUserName  @"username"
 #define     kParseShoppingCartGoodID    @"goodID"
+#define     kParseShoppingAmount        @"amount"
 
 #endif /* ParseHeader_h */
