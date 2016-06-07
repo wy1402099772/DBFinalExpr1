@@ -18,6 +18,7 @@ PODS:
   - CYLTabBarController (1.4.4)
   - DZNEmptyDataSet (1.8.1)
   - Masonry (1.0.1)
+  - MJRefresh (3.1.0)
   - Parse (1.13.0):
     - Bolts/Tasks (~> 1.6)
   - SDWebImage (3.7.6):
@@ -30,6 +31,7 @@ DEPENDENCIES:
   - CYLTabBarController
   - DZNEmptyDataSet
   - Masonry
+  - MJRefresh
   - Parse
   - SDWebImage
   - Toast
@@ -40,6 +42,7 @@ SPEC CHECKSUMS:
   CYLTabBarController: 71d00c3287359fa6fe06dbc04d2a2d103141c763
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MJRefresh: 743e6404967d1c2c688472ea3ecfde247d872db4
   Parse: f51c24d2feb412e4b2d6cc73d37cb24e8d0089bc
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   Toast: 32c59229abfcf41850162b83bb9259dc84372473
