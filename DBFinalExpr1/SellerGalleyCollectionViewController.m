@@ -21,7 +21,7 @@
 #define STRONG_SELF __strong typeof(weakSelf)self = weakSelf
 #define CellWidth (([UIScreen mainScreen].bounds.size.width - (collectionViewDisplayMode - 1) * minimumInteritemSpacing - CellInsets * 2 * collectionViewDisplayMode) / collectionViewDisplayMode)
 
-static NSString *GoodsCollectionViewIdentifier = @"GoodsCollectionViewIdentifier";
+static NSString *GoodsCollectionViewIdentifier = @"SellerGalleryCollectionViewIdentifier";
 static CGFloat minimumLineSpacing = 8;
 static CGFloat minimumInteritemSpacing = 4;
 static NSUInteger collectionViewDisplayMode = 2;

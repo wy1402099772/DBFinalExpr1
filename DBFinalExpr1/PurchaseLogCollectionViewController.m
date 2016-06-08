@@ -1,17 +1,17 @@
 //
-//  ShoppingCartCollectionViewController.m
+//  PurchaseLogCollectionViewController.m
 //  DBFinalExpr1
 //
-//  Created by 万延 on 16/6/7.
+//  Created by 万延 on 16/6/8.
 //  Copyright © 2016年 万延. All rights reserved.
 //
 
-#import "ShoppingCartCollectionViewController.h"
+#import "PurchaseLogCollectionViewController.h"
 #import "Masonry.h"
 #import <Parse/Parse.h>
 #import "ParseHeader.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "ShoppingCartCollectionViewCell.h"
+#import "PurchaseLogCollectionViewCell.h"
 #import "UserHelper.h"
 #import "ShoppingCartModel.h"
 #import "MJRefresh.h"
@@ -21,20 +21,20 @@
 #define STRONG_SELF __strong typeof(weakSelf)self = weakSelf
 #define CellWidth (([UIScreen mainScreen].bounds.size.width - (collectionViewDisplayMode - 1) * minimumInteritemSpacing - CellInsets * 2 * collectionViewDisplayMode) / collectionViewDisplayMode)
 
-static NSString *GoodsCollectionViewIdentifier = @"ShoppingCartCollectionViewIdentifier";
+static NSString *GoodsCollectionViewIdentifier = @"PurchaseLogCollectionViewIdentifier";
 static CGFloat minimumLineSpacing = 8;
 static CGFloat minimumInteritemSpacing = 4;
 static NSUInteger collectionViewDisplayMode = 1;
 static NSUInteger CellInsets = 1;
 
-@interface ShoppingCartCollectionViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface PurchaseLogCollectionViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *modelArray;
 
 @end
 
-@implementation ShoppingCartCollectionViewController
+@implementation PurchaseLogCollectionViewController
 
 - (void)viewDidLoad
 {
@@ -54,15 +54,15 @@ static NSUInteger CellInsets = 1;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.title = @"购物车";
+    self.navigationItem.title = @"购买记录";
     
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectCancelBarButton:)];
-    
-    self.navigationItem.rightBarButtonItem = rightButton;
-    
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_shop"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectShoppingBarButton:)];
-    
-    self.navigationItem.leftBarButtonItem = leftButton;
+//    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectCancelBarButton:)];
+//    
+//    self.navigationItem.rightBarButtonItem = rightButton;
+//    
+//    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_shop"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectShoppingBarButton:)];
+//    
+//    self.navigationItem.leftBarButtonItem = leftButton;
 }
 
 - (void)initView
@@ -160,8 +160,8 @@ static NSUInteger CellInsets = 1;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    ShoppingCartCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:GoodsCollectionViewIdentifier forIndexPath:indexPath];
-    [cell loadData:self.modelArray[indexPath.row]];
+    PurchaseLogCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:GoodsCollectionViewIdentifier forIndexPath:indexPath];
+//    [cell loadData:self.modelArray[indexPath.row]];
     return cell;
 }
 
@@ -241,7 +241,7 @@ static NSUInteger CellInsets = 1;
             }];
         }];
         
-        [_collectionView registerClass:[ShoppingCartCollectionViewCell class] forCellWithReuseIdentifier:GoodsCollectionViewIdentifier];
+        [_collectionView registerClass:[PurchaseLogCollectionViewCell class] forCellWithReuseIdentifier:GoodsCollectionViewIdentifier];
     }
     return _collectionView;
 }

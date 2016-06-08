@@ -1,12 +1,12 @@
 //
-//  ShoppingCartCollectionViewCell.m
+//  PurchaseLogCollectionViewCell.m
 //  DBFinalExpr1
 //
-//  Created by 万延 on 16/6/7.
+//  Created by 万延 on 16/6/8.
 //  Copyright © 2016年 万延. All rights reserved.
 //
 
-#import "ShoppingCartCollectionViewCell.h"
+#import "PurchaseLogCollectionViewCell.h"
 #import "ParseHeader.h"
 #import <Parse.h>
 #import "GoodModel.h"
@@ -17,7 +17,7 @@
 #import "UIView+Toast.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface ShoppingCartCollectionViewCell ()
+@interface PurchaseLogCollectionViewCell ()
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *priceLabel;
@@ -31,7 +31,7 @@
 
 @end
 
-@implementation ShoppingCartCollectionViewCell
+@implementation PurchaseLogCollectionViewCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
