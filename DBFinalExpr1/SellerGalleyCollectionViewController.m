@@ -1,12 +1,12 @@
 //
-//  GoodsCollectionViewController.m
+//  SellerGalleyCollectionViewController.m
 //  DBFinalExpr1
 //
-//  Created by 万延 on 16/6/5.
+//  Created by 万延 on 16/6/8.
 //  Copyright © 2016年 万延. All rights reserved.
 //
 
-#import "GoodsCollectionViewController.h"
+#import "SellerGalleyCollectionViewController.h"
 #import "Masonry.h"
 #import <Parse/Parse.h>
 #import "ParseHeader.h"
@@ -14,6 +14,8 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "GoodsCollectionViewCell.h"
 #import "MJRefresh.h"
+#import "UserHelper.h"
+#import "SellerEditViewController.h"
 
 #define WEAK_SELF __weak typeof(self)weakSelf = self
 #define STRONG_SELF __strong typeof(weakSelf)self = weakSelf
@@ -25,19 +27,20 @@ static CGFloat minimumInteritemSpacing = 4;
 static NSUInteger collectionViewDisplayMode = 2;
 static NSUInteger CellInsets = 1;
 
-@interface GoodsCollectionViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface SellerGalleyCollectionViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *modelArray;
 
 @end
 
-@implementation GoodsCollectionViewController
+@implementation SellerGalleyCollectionViewController
 
 - (void)viewDidLoad
 {
     [self initView];
     PFQuery *query = [PFQuery queryWithClassName:ParseGoods];
+    [query whereKey:ParseGoodsSellerName equalTo:[UserHelper sharedInstance].username];
     WEAK_SELF;
     [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
         STRONG_SELF;
@@ -79,6 +82,12 @@ static NSUInteger CellInsets = 1;
 }
 
 #pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    SellerEditViewController *controller = [[SellerEditViewController alloc] initWithGoodModel:self.modelArray[indexPath.row] mode:SellerTypeEdit];
+    [self.navigationController pushViewController:controller animated:YES];
+}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -152,6 +161,7 @@ static NSUInteger CellInsets = 1;
         _collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             STRONG_SELF;
             PFQuery *query = [PFQuery queryWithClassName:ParseGoods];
+            [query whereKey:ParseGoodsSellerName equalTo:[UserHelper sharedInstance].username];
             WEAK_SELF;
             [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
                 STRONG_SELF;

@@ -16,14 +16,27 @@
 #define     ParseGoodsScore             @"score"
 #define     ParseGoodsClassify          @"classify"
 #define     ParseGoodsImages            @"images"
+#define     ParseGoodStorageAmount      @"storageamount"
+#define     ParseGoodsSellerName        @"sellername"
+
 
 #define     kParseUser                  @"User"
 #define     kParseUserUsername          @"username"
 #define     kParseUserPassword          @"password"
+#define     kParseUserType              @"type"
+#define     kParseUserTypeSeller        @"Seller"
+#define     kParseUserTypeCustomer      @"Customer"
 
 #define     kParseShoppingCart          @"ShoppingCart"
 #define     kParseShoppingCartUserName  @"username"
 #define     kParseShoppingCartGoodID    @"goodID"
 #define     kParseShoppingAmount        @"amount"
+
+#define     kParsePurchaseLog           @"PurchaseLog"
+#define     kParsePurchaseLogUserName   @"username"
+#define     kParsePurchaseLogGoodID     @"goodID"
+#define     kParsePurchaseLogGoodName   @"goodName"
+#define     kParsePurchaseLogAmount     @"amount"
+#define     kParsePurchaseLogPrice      @"price"
 
 #endif /* ParseHeader_h */

@@ -12,6 +12,9 @@
 #import "GoodsCollectionViewController.h"
 #import "LoginViewController.h"
 #import "ShoppingCartCollectionViewController.h"
+#import "UserHelper.h"
+#import "ParseHeader.h"
+#import "SellerGalleyCollectionViewController.h"
 
 @interface AppDelegate ()
 
@@ -65,14 +68,29 @@
     UIViewController *secondNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:secondViewController];
     
+    SellerGalleyCollectionViewController *thirdViewController = [[SellerGalleyCollectionViewController alloc] init];
+    UIViewController *thirdNavigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:thirdViewController];
+    
     
     CYLTabBarController *tabBarController = [[CYLTabBarController alloc] init];
     [self customizeTabBarForController:tabBarController];
     
-    [tabBarController setViewControllers:@[
-                                           firstNavigationController,
-                                           secondNavigationController,
-                                           ]];
+    if([[UserHelper sharedInstance].type isEqualToString:kParseUserTypeSeller])
+    {
+        [tabBarController setViewControllers:@[
+                                               firstNavigationController,
+                                               secondNavigationController,
+                                               thirdNavigationController
+                                               ]];
+    }
+    else
+    {
+        [tabBarController setViewControllers:@[
+                                               firstNavigationController,
+                                               secondNavigationController,
+                                               ]];
+    }
     self.tabBarController = tabBarController;
 }
 
@@ -94,8 +112,22 @@
                             CYLTabBarItemSelectedImage : @"image_shop_car",
                             };
     
-    NSArray *tabBarItemsAttributes = @[ dict1, dict2 ];
-    tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
+    NSDictionary *dict3 = @{
+                            CYLTabBarItemTitle : @"我的商品",
+                            CYLTabBarItemImage : @"image_main_good",
+                            CYLTabBarItemSelectedImage : @"image_main_good",
+                            };
+    
+    if([[UserHelper sharedInstance].type isEqualToString:kParseUserTypeSeller])
+    {
+        NSArray *tabBarItemsAttributes = @[ dict1, dict2 , dict3];
+        tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
+    }
+    else
+    {
+        NSArray *tabBarItemsAttributes = @[ dict1, dict2];
+        tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
+    }
 }
 
 - (void)didLoginCompletion

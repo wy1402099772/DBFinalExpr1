@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UILabel *priceLabel;
 @property (nonatomic, strong) UIImageView *avatarImage;
 @property (nonatomic, strong) UILabel *amountlabel;
+@property (nonatomic, strong) UIButton *selectButton;
 
 @property (nonatomic, strong) GoodModel *good;
 @property (nonatomic, strong) ShoppingCartModel *shoppingCart;
@@ -69,11 +70,19 @@
     }];
     self.priceLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:15];
     
+    [self.contentView addSubview:self.selectButton];
+    [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(40);
+        make.right.equalTo(self.contentView).offset(-8);
+        make.bottom.equalTo(self.contentView).offset(-8);
+    }];
+    
     [self.contentView addSubview:self.amountlabel];
     [self.amountlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(140);
         make.height.mas_equalTo(40);
-        make.right.equalTo(self.contentView).offset(-8);
+        make.right.equalTo(self.selectButton.mas_left).offset(-8);
         make.bottom.equalTo(self.contentView).offset(-8);
     }];
 }
@@ -82,6 +91,7 @@
 {
     [self configureView];
     self.shoppingCart = shoppingCart;
+    [self.selectButton setSelected:shoppingCart.selected];
     self.amountlabel.text = [NSString stringWithFormat:@"数量：%@", shoppingCart.amount];
     
     [ShoppingCartDataController createGoodFromShopCart:shoppingCart withBlock:^(GoodModel *good, NSError *error) {
@@ -104,6 +114,11 @@
     }];
 }
 
+- (void)selectButtonDidClicked:(UIButton *)sender
+{
+    [sender setSelected:!sender.isSelected];
+    self.shoppingCart.selected = sender.isSelected;
+}
 
 #pragma mark - getter
 
@@ -146,6 +161,18 @@
         _amountlabel = [[UILabel alloc] init];
     }
     return _amountlabel;
+}
+
+- (UIButton *)selectButton
+{
+    if(!_selectButton)
+    {
+        _selectButton = [[UIButton alloc] init];
+        [_selectButton setImage:[UIImage imageNamed:@"image_login_showpassword_off"] forState:UIControlStateNormal];
+        [_selectButton setImage:[UIImage imageNamed:@"image_login_showpassword_on"] forState:UIControlStateSelected];
+        [_selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _selectButton;
 }
 
 @end

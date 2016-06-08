@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) NSString *goodID;
 @property (nonatomic, strong) NSNumber *amount;
+@property (nonatomic, assign) BOOL selected;
 
 - (instancetype)initWithPFObject:(PFObject *)object;
 

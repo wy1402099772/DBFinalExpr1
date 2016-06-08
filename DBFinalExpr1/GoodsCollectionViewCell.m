@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIImageView *avatarImage;
 @property (nonatomic, strong) UIButton *addToShopCar;
 @property (nonatomic, strong) GoodModel *model;
+@property (nonatomic, strong) UILabel *storageLabel;
 
 @end
 
@@ -124,10 +125,23 @@
         make.right.equalTo(self.contentView).offset(-8);
         make.bottom.equalTo(self.contentView).offset(-8);
     }];
+    
+    [self.avatarImage addSubview:self.storageLabel];
+    [self.storageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.avatarImage);
+        make.right.equalTo(self.avatarImage);
+        make.bottom.equalTo(self.avatarImage);
+        make.height.mas_equalTo(21);
+    }];
 }
 
 - (void)addIntoShoppingCart:(UIButton *)sender
 {
+    if([self.model.amount intValue] <= 0)
+    {
+        [[CCommon getTopmostViewController].view makeToast:@"此商品无货！" duration:1.5f position:CSToastPositionCenter];
+        return ;
+    }
     [[CCommon getTopmostViewController].view makeToastActivity:CSToastPositionCenter];
     [[UserHelper sharedInstance] addGood:self.model.goodID withBlock:^(NSError *error) {
         NSString *message;
@@ -157,6 +171,7 @@
     self.priceLabel.text = [NSString stringWithFormat:@"%@ RMB", [model.price stringValue]];
     self.scorelabel.text = [NSString stringWithFormat:@"%@ 分", [model.score stringValue]];
     self.classifyLabel.text = [NSString stringWithFormat:@"分类：%@", model.classify];
+    self.storageLabel.text = [NSString stringWithFormat:@"库存：%@", [model.amount stringValue]];
 }
 
 #pragma mark - getter
@@ -224,6 +239,18 @@
         [_addToShopCar addTarget:self action:@selector(addIntoShoppingCart:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _addToShopCar;
+}
+
+- (UILabel *)storageLabel
+{
+    if(!_storageLabel)
+    {
+        _storageLabel = [UILabel new];
+        _storageLabel.backgroundColor = [UIColor colorWithRed:0.964 green:1.000 blue:0.950 alpha:0.8000];
+        _storageLabel.opaque = NO;
+        _storageLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _storageLabel;
 }
 
 @end

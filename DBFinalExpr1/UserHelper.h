@@ -13,6 +13,7 @@ typedef void (^CompletionBlock) (NSError *error);
 @interface UserHelper : NSObject
 
 @property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *type;
 
 + (instancetype)sharedInstance;
 
@@ -21,5 +22,9 @@ typedef void (^CompletionBlock) (NSError *error);
 - (void)signupWithUsername:(NSString *)username password:(NSString *)password withBlock:(CompletionBlock)block;
 
 - (void)addGood:(NSString *)goodID withBlock:(CompletionBlock)block;
+
+- (void)cancelShoppingCart:(NSArray *)array withBlock:(CompletionBlock)block;
+
+- (void)dealShoppingCart:(NSArray *)array withBlock:(CompletionBlock)block;
 
 @end

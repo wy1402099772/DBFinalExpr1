@@ -18,6 +18,7 @@
     {
         _amount = [object objectForKey:kParseShoppingAmount];
         _goodID = [object objectForKey:kParseShoppingCartGoodID];
+        _selected = NO;
     }
     return self;
 }

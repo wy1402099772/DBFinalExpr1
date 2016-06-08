@@ -22,6 +22,7 @@
         self.score = [object objectForKey:ParseGoodsScore];
         self.classify = [object objectForKey:ParseGoodsClassify];
         self.images = [object objectForKey:ParseGoodsImages];
+        self.amount = [object objectForKey:ParseGoodStorageAmount];
     }
     return self;
 }

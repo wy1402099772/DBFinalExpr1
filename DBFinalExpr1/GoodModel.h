@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSNumber *score;
 @property (nonatomic, strong) NSString *classify;
 @property (nonatomic, strong) NSArray *images;
+@property (nonatomic, strong) NSNumber *amount;
 
 - (instancetype)initWithPFObject:(PFObject *)object;
 

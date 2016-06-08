@@ -15,6 +15,7 @@
 #import "UserHelper.h"
 #import "ShoppingCartModel.h"
 #import "MJRefresh.h"
+#import "UIView+Toast.h"
 
 #define WEAK_SELF __weak typeof(self)weakSelf = self
 #define STRONG_SELF __strong typeof(weakSelf)self = weakSelf
@@ -53,7 +54,15 @@ static NSUInteger CellInsets = 1;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationItem.title = @"购物车";
     
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectCancelBarButton:)];
+    
+    self.navigationItem.rightBarButtonItem = rightButton;
+    
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_shop"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectShoppingBarButton:)];
+    
+    self.navigationItem.leftBarButtonItem = leftButton;
 }
 
 - (void)initView
@@ -66,6 +75,78 @@ static NSUInteger CellInsets = 1;
 
 #pragma mark - private
 
+- (void)didSelectShoppingBarButton:(UIBarButtonItem *)sender
+{
+    NSMutableArray *tmpArray = [NSMutableArray array];
+    for(ShoppingCartModel *model in self.modelArray)
+    {
+        if(model.selected == YES)
+            [tmpArray addObject:model];
+    }
+    if(tmpArray.count == 0)
+    {
+        [self.view makeToast:@"你没有选中任何物品，无法购买" duration:1.5f position:CSToastPositionCenter];
+    }
+    else
+    {
+        [[UserHelper sharedInstance] dealShoppingCart:[tmpArray copy] withBlock:^(NSError *error) {
+            
+            NSString *message;
+            if(error)
+            {
+                message = @"不是所有的都成功购买，依旧留在购物车中";
+            }
+            else
+            {
+                message = @"购买成功";
+            }
+            [self.view makeToast:message duration:1.5f position:CSToastPositionCenter];
+            
+            PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
+            [query whereKey:kParseShoppingCartUserName equalTo:[UserHelper sharedInstance].username];
+            WEAK_SELF;
+            [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
+                STRONG_SELF;
+                [self.modelArray removeAllObjects];
+                NSLog(@"object :%@, \n error: %@", objects, error);
+                for(PFObject *object in objects)
+                    [self.modelArray addObject:[[ShoppingCartModel alloc] initWithPFObject:object]];
+                [self.collectionView reloadData];
+            }];
+        }];
+    }
+}
+
+- (void)didSelectCancelBarButton:(UIBarButtonItem *)sender
+{
+    NSMutableArray *tmpArray = [NSMutableArray array];
+    for(ShoppingCartModel *model in self.modelArray)
+    {
+        if(model.selected == YES)
+            [tmpArray addObject:model];
+    }
+    if(tmpArray.count == 0)
+    {
+        [self.view makeToast:@"你没有选中任何物品，无法删除" duration:1.5f position:CSToastPositionCenter];
+    }
+    else
+    {
+        [[UserHelper sharedInstance] cancelShoppingCart:[tmpArray copy] withBlock:^(NSError *error) {
+            PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
+            [query whereKey:kParseShoppingCartUserName equalTo:[UserHelper sharedInstance].username];
+            WEAK_SELF;
+            [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
+                STRONG_SELF;
+                [self.modelArray removeAllObjects];
+                NSLog(@"object :%@, \n error: %@", objects, error);
+                for(PFObject *object in objects)
+                    [self.modelArray addObject:[[ShoppingCartModel alloc] initWithPFObject:object]];
+                [self.collectionView reloadData];
+            }];
+            [self.view makeToast:@"操作已完成" duration:1.5f position:CSToastPositionCenter];
+        }];
+    }
+}
 
 
 #pragma mark - UICollectionViewDelegate
@@ -120,7 +201,13 @@ static NSUInteger CellInsets = 1;
 {
     return [UIImage imageNamed:@"image_loading"];
 }
+
 #pragma mark - DZNEmptyDataSetDelegate
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
 
 #pragma mark - getter
 
