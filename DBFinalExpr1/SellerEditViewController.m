@@ -17,6 +17,11 @@
 @property (nonatomic, strong) GoodModel *model;
 @property (nonatomic, assign) SellerEditType type;
 
+@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UILabel *goodIDLabel;
+@property (nonatomic, strong) UILabel *priceLabel;
+@property (nonatomic, strong) UILabel *storageLabel;
+
 @property (nonatomic, strong) UITextField *nameText;
 @property (nonatomic, strong) UITextField *goodIDText;
 @property (nonatomic, strong) UITextField *priceText;
@@ -43,36 +48,70 @@
 {
     self.view.backgroundColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1];
     
+    [self.view addSubview:self.nameLabel];
+    [self.view addSubview:self.goodIDLabel];
+    [self.view addSubview:self.priceLabel];
+    [self.view addSubview:self.storageLabel];
+
+    
     [self.view addSubview:self.nameText];
     [self.view addSubview:self.goodIDText];
     [self.view addSubview:self.priceText];
     [self.view addSubview:self.storageText];
     [self.view addSubview:self.confirmButton];
     
-    [self.nameText mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(100);
         make.left.equalTo(self.view).offset(10);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [self.nameText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(100);
+        make.left.equalTo(self.view).offset(100);
         make.right.equalTo(self.view).offset(-10);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [self.goodIDLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nameText.mas_bottom).offset(20);
+        make.left.equalTo(self.view).offset(10);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
     
     [self.goodIDText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameText.mas_bottom).offset(20);
-        make.left.equalTo(self.view).offset(10);
+        make.left.equalTo(self.view).offset(100);
         make.right.equalTo(self.view).offset(-10);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [self.priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.goodIDText.mas_bottom).offset(20);
+        make.left.equalTo(self.view).offset(10);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
     
     [self.priceText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.goodIDText.mas_bottom).offset(20);
-        make.left.equalTo(self.view).offset(10);
+        make.left.equalTo(self.view).offset(100);
         make.right.equalTo(self.view).offset(-10);
+        make.height.mas_equalTo(30);
+    }];
+    
+    [self.storageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.priceText.mas_bottom).offset(20);
+        make.left.equalTo(self.view).offset(10);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
     
     [self.storageText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.priceText.mas_bottom).offset(20);
-        make.left.equalTo(self.view).offset(10);
+        make.left.equalTo(self.view).offset(100);
         make.right.equalTo(self.view).offset(-10);
         make.height.mas_equalTo(30);
     }];
@@ -117,7 +156,12 @@
                     [object setObject:@(self.priceText.text.intValue) forKey:ParseGoodsPrice];
                     [object setObject:@(self.storageText.text.intValue) forKey:ParseGoodStorageAmount];
                     
-                    [object saveInBackground];
+                    [object saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
+                        if(error)
+                            [self.view makeToast:@"修改失败" duration:1.5 position:CSToastPositionCenter];
+                        else
+                            [self.view makeToast:@"修改成功" duration:1.5 position:CSToastPositionCenter];
+                    }];
                     [self.view hideToastActivity];
                 }
             }];
@@ -167,6 +211,46 @@
         _storageText.placeholder = @"库存";
     }
     return _storageText;
+}
+
+- (UILabel *)nameLabel
+{
+    if(!_nameLabel)
+    {
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.text = @"商品名";
+    }
+    return _nameLabel;
+}
+
+- (UILabel *)storageLabel
+{
+    if(!_storageLabel)
+    {
+        _storageLabel = [[UILabel alloc] init];
+        _storageLabel.text = @"库存";
+    }
+    return _storageLabel;
+}
+
+- (UILabel *)goodIDLabel
+{
+    if(!_goodIDLabel)
+    {
+        _goodIDLabel = [[UILabel alloc] init];
+        _goodIDLabel.text = @"商品ID";
+    }
+    return _goodIDLabel;
+}
+
+- (UILabel *)priceLabel
+{
+    if(!_priceLabel)
+    {
+        _priceLabel = [[UILabel alloc] init];
+        _priceLabel.text = @"单价";
+    }
+    return _priceLabel;
 }
 
 - (UIButton *)confirmButton
