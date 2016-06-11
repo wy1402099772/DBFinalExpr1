@@ -167,7 +167,7 @@
 		935E49911D027044006109B4 = {
 			isa = PBXGroup;
 			children = (
-				9380AC181D07AD9C00BD4F9D /* New Group */,
+				935E499C1D027044006109B4 /* DBFinalExpr1 */,
 				935E49B61D027044006109B4 /* DBFinalExpr1Tests */,
 				935E49C11D027044006109B4 /* DBFinalExpr1UITests */,
 				935E499B1D027044006109B4 /* Products */,
@@ -248,14 +248,6 @@
 				93E35A611D041DEB00C91482 /* GoodsCollectionViewCell.m */,
 			);
 			name = Goods;
-			sourceTree = "<group>";
-		};
-		9380AC181D07AD9C00BD4F9D /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-				935E499C1D027044006109B4 /* DBFinalExpr1 */,
-			);
-			name = "New Group";
 			sourceTree = "<group>";
 		};
 		9380AC191D07ADD200BD4F9D /* Seller */ = {
