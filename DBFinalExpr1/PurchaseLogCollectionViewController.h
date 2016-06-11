@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger ,PurchaseControllerType) {
+    PurchaseControllerTypePurchase,
+    PurchaseControllerTypeSell
+};
+
 @interface PurchaseLogCollectionViewController : UIViewController
+
+- (instancetype)initWithType:(PurchaseControllerType)type;
 
 @end

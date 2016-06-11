@@ -31,10 +31,19 @@ static NSUInteger CellInsets = 1;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *modelArray;
-
+@property (nonatomic, assign) PurchaseControllerType type;
 @end
 
 @implementation PurchaseLogCollectionViewController
+
+- (instancetype)initWithType:(PurchaseControllerType)type
+{
+    if(self = [super init])
+    {
+        self.type = type;
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
