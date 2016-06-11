@@ -10,7 +10,7 @@
 #import "ParseHeader.h"
 #import <Parse.h>
 #import "GoodModel.h"
-#import "ShoppingCartModel.h"
+#import "PurchaseLogModel.h"
 #import "ShoppingCartDataController.h"
 #import "Masonry.h"
 #import "CCommon.h"
@@ -19,15 +19,16 @@
 
 @interface PurchaseLogCollectionViewCell ()
 
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *priceLabel;
-@property (nonatomic, strong) UIImageView *avatarImage;
-@property (nonatomic, strong) UILabel *amountlabel;
-@property (nonatomic, strong) UIButton *selectButton;
-@property (nonatomic, strong) UILabel *storageLabel;
+@property (nonatomic, strong) UILabel           *nameLabel;
+@property (nonatomic, strong) UILabel           *priceLabel;
+@property (nonatomic, strong) UIImageView       *avatarImage;
+@property (nonatomic, strong) UILabel           *amountlabel;
+@property (nonatomic, strong) UILabel           *sellername;
+//@property (nonatomic, strong) UIButton           *selectButton;
+//@property (nonatomic, strong) UILabel            *storageLabel;
 
-@property (nonatomic, strong) GoodModel *good;
-@property (nonatomic, strong) ShoppingCartModel *shoppingCart;
+@property (nonatomic, strong) GoodModel         *good;
+@property (nonatomic, strong) PurchaseLogModel  *purchaseLog;
 
 @end
 
@@ -71,39 +72,51 @@
     }];
     self.priceLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:15];
     
-    [self.contentView addSubview:self.selectButton];
-    [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-        make.right.equalTo(self.contentView).offset(-8);
-        make.bottom.equalTo(self.contentView).offset(-8);
+    [self.contentView addSubview:self.sellername];
+    [self.sellername mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.priceLabel);
+        make.bottom.equalTo(self.priceLabel);
+        make.left.equalTo(self.priceLabel.mas_right).offset(10);
+        make.right.equalTo(self.contentView.mas_right).offset(-8);
     }];
+    
+//    [self.contentView addSubview:self.selectButton];
+//    [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(40);
+//        make.height.mas_equalTo(40);
+//        make.right.equalTo(self.contentView).offset(-8);
+//        make.bottom.equalTo(self.contentView).offset(-8);
+//    }];
     
     [self.contentView addSubview:self.amountlabel];
     [self.amountlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(140);
         make.height.mas_equalTo(40);
-        make.right.equalTo(self.selectButton.mas_left).offset(-8);
+        make.right.equalTo(self.contentView.mas_right).offset(-8);
         make.bottom.equalTo(self.contentView).offset(-8);
     }];
     
-    [self.avatarImage addSubview:self.storageLabel];
-    [self.storageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.avatarImage);
-        make.right.equalTo(self.avatarImage);
-        make.bottom.equalTo(self.avatarImage);
-        make.height.mas_equalTo(21);
-    }];
+//    [self.avatarImage addSubview:self.storageLabel];
+//    [self.storageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.avatarImage);
+//        make.right.equalTo(self.avatarImage);
+//        make.bottom.equalTo(self.avatarImage);
+//        make.height.mas_equalTo(21);
+//    }];
 }
 
-- (void)loadData:(ShoppingCartModel *)shoppingCart
+#pragma mark - public
+
+- (void)loadData:(PurchaseLogModel *)purchaseLog
 {
     [self configureView];
-    self.shoppingCart = shoppingCart;
-    [self.selectButton setSelected:shoppingCart.selected];
-    self.amountlabel.text = [NSString stringWithFormat:@"数量：%@", shoppingCart.amount];
+    self.purchaseLog = purchaseLog;
+//    [self.selectButton setSelected:shoppingCart.selected];
+    self.amountlabel.text = [NSString stringWithFormat:@"购买数量：%@", purchaseLog.purchaseAmount];
+    self.priceLabel.text = [NSString stringWithFormat:@"成交价格：%@", purchaseLog.purchasePrice];
+    self.nameLabel.text = purchaseLog.goodName;
     
-    [ShoppingCartDataController createGoodFromShopCart:shoppingCart withBlock:^(GoodModel *good, NSError *error) {
+    [ShoppingCartDataController createGoodFromPurchaseLog:purchaseLog withBlock:^(GoodModel *good, NSError *error) {
         if(error)
         {
             NSString *message = @"加载购物信息失败！请检查网络";
@@ -111,26 +124,20 @@
         }
         else
         {
-            self.nameLabel.text = good.name;
-            self.priceLabel.text = good.price.stringValue;
+            self.sellername.text = [NSString stringWithFormat:@"卖家：%@", good.sellerName];
+            
             if(good.images.count)
                 [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:(NSString *)good.images[0]] placeholderImage:[[UIImage imageNamed:@"Image_goods_default"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
             else
             {
                 [self.avatarImage setImage:[[UIImage imageNamed:@"Image_goods_default"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
             }
-            if(shoppingCart.amount <= good.amount)
-                self.storageLabel.hidden = YES;
-            else
-                self.storageLabel.text = @"库存不足";
+//            if(shoppingCart.amount <= good.amount)
+//                self.storageLabel.hidden = YES;
+//            else
+//                self.storageLabel.text = @"库存不足";
         }
     }];
-}
-
-- (void)selectButtonDidClicked:(UIButton *)sender
-{
-    [sender setSelected:!sender.isSelected];
-    self.shoppingCart.selected = sender.isSelected;
 }
 
 #pragma mark - getter
@@ -176,28 +183,37 @@
     return _amountlabel;
 }
 
-- (UIButton *)selectButton
+- (UILabel *)sellername
 {
-    if(!_selectButton)
+    if(!_sellername)
     {
-        _selectButton = [[UIButton alloc] init];
-        [_selectButton setImage:[UIImage imageNamed:@"image_login_showpassword_off"] forState:UIControlStateNormal];
-        [_selectButton setImage:[UIImage imageNamed:@"image_login_showpassword_on"] forState:UIControlStateSelected];
-        [_selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+        _sellername = [[UILabel alloc] init];
     }
-    return _selectButton;
+    return _sellername;
 }
 
-- (UILabel *)storageLabel
-{
-    if(!_storageLabel)
-    {
-        _storageLabel = [UILabel new];
-        _storageLabel.backgroundColor = [UIColor colorWithRed:0.964 green:1.000 blue:0.950 alpha:0.8000];
-        _storageLabel.opaque = NO;
-        _storageLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    return _storageLabel;
-}
+//- (UIButton *)selectButton
+//{
+//    if(!_selectButton)
+//    {
+//        _selectButton = [[UIButton alloc] init];
+//        [_selectButton setImage:[UIImage imageNamed:@"image_login_showpassword_off"] forState:UIControlStateNormal];
+//        [_selectButton setImage:[UIImage imageNamed:@"image_login_showpassword_on"] forState:UIControlStateSelected];
+//        [_selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _selectButton;
+//}
+//
+//- (UILabel *)storageLabel
+//{
+//    if(!_storageLabel)
+//    {
+//        _storageLabel = [UILabel new];
+//        _storageLabel.backgroundColor = [UIColor colorWithRed:0.964 green:1.000 blue:0.950 alpha:0.8000];
+//        _storageLabel.opaque = NO;
+//        _storageLabel.textAlignment = NSTextAlignmentCenter;
+//    }
+//    return _storageLabel;
+//}
 
 @end

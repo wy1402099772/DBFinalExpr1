@@ -27,6 +27,7 @@
 		9380AC221D07B45C00BD4F9D /* SellerEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9380AC211D07B45C00BD4F9D /* SellerEditViewController.m */; };
 		9380AC261D07C66300BD4F9D /* PurchaseLogCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9380AC251D07C66300BD4F9D /* PurchaseLogCollectionViewController.m */; };
 		9380AC291D07C72400BD4F9D /* PurchaseLogCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9380AC281D07C72400BD4F9D /* PurchaseLogCollectionViewCell.m */; };
+		93BA99341D0C69F5004A77A9 /* PurchaseLogModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BA99331D0C69F5004A77A9 /* PurchaseLogModel.m */; };
 		93C67A4D1D050E5300E01E25 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C67A4C1D050E5300E01E25 /* LoginViewController.m */; };
 		93C67A531D0514DE00E01E25 /* UserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C67A521D0514DE00E01E25 /* UserHelper.m */; };
 		93C67A5B1D05338000E01E25 /* CCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C67A591D05338000E01E25 /* CCommon.m */; };
@@ -94,6 +95,8 @@
 		9380AC251D07C66300BD4F9D /* PurchaseLogCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseLogCollectionViewController.m; sourceTree = "<group>"; };
 		9380AC271D07C72400BD4F9D /* PurchaseLogCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseLogCollectionViewCell.h; sourceTree = "<group>"; };
 		9380AC281D07C72400BD4F9D /* PurchaseLogCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseLogCollectionViewCell.m; sourceTree = "<group>"; };
+		93BA99321D0C69F5004A77A9 /* PurchaseLogModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseLogModel.h; sourceTree = "<group>"; };
+		93BA99331D0C69F5004A77A9 /* PurchaseLogModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseLogModel.m; sourceTree = "<group>"; };
 		93C67A4B1D050E5300E01E25 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		93C67A4C1D050E5300E01E25 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		93C67A511D0514DE00E01E25 /* UserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHelper.h; sourceTree = "<group>"; };
@@ -270,6 +273,8 @@
 				9380AC251D07C66300BD4F9D /* PurchaseLogCollectionViewController.m */,
 				9380AC271D07C72400BD4F9D /* PurchaseLogCollectionViewCell.h */,
 				9380AC281D07C72400BD4F9D /* PurchaseLogCollectionViewCell.m */,
+				93BA99321D0C69F5004A77A9 /* PurchaseLogModel.h */,
+				93BA99331D0C69F5004A77A9 /* PurchaseLogModel.m */,
 			);
 			name = PurchaseLog;
 			sourceTree = "<group>";
@@ -494,6 +499,7 @@
 				9380AC1C1D07AE2600BD4F9D /* SellerGalleyCollectionViewController.m in Sources */,
 				935E49D31D040422006109B4 /* GoodModel.m in Sources */,
 				9380AC291D07C72400BD4F9D /* PurchaseLogCollectionViewCell.m in Sources */,
+				93BA99341D0C69F5004A77A9 /* PurchaseLogModel.m in Sources */,
 				930B806E1D064D7E00C03A3F /* ShoppingCartModel.m in Sources */,
 				930B80711D06515B00C03A3F /* ShoppingCartDataController.m in Sources */,
 				935E49A51D027044006109B4 /* ViewController.m in Sources */,

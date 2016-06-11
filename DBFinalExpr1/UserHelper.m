@@ -124,6 +124,7 @@
                 [object1 setObject:[object objectForKey:ParseGoodsGoodId] forKey:kParsePurchaseLogGoodID];
                 [object1 setObject:[object objectForKey:ParseGoodsName] forKey:kParsePurchaseLogGoodName];
                 [object1 setObject:[UserHelper sharedInstance].username forKey:kParsePurchaseLogUserName];
+                [object1 setObject:[object objectForKey:ParseGoodsSellerName] forKey:kParsePurchaseLogSellerName];
                 
                 [object1 saveInBackground];
                 

@@ -11,13 +11,14 @@
 
 @interface GoodModel : NSObject
 
-@property (nonatomic, strong) NSString *goodID;
-@property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSNumber *price;
-@property (nonatomic, strong) NSNumber *score;
-@property (nonatomic, strong) NSString *classify;
-@property (nonatomic, strong) NSArray *images;
-@property (nonatomic, strong) NSNumber *amount;
+@property (nonatomic, strong) NSString  *goodID;
+@property (nonatomic, strong) NSString  *name;
+@property (nonatomic, strong) NSNumber  *price;
+@property (nonatomic, strong) NSNumber  *score;
+@property (nonatomic, strong) NSString  *classify;
+@property (nonatomic, strong) NSArray   *images;
+@property (nonatomic, strong) NSNumber  *amount;
+@property (nonatomic, strong) NSString  *sellerName;
 
 - (instancetype)initWithPFObject:(PFObject *)object;
 

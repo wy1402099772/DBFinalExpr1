@@ -30,4 +30,22 @@
     }];
 }
 
++ (void)createGoodFromPurchaseLog:(PurchaseLogModel *)model withBlock:(ShoppingCartDataCompletion)block
+{
+    PFQuery *query = [PFQuery queryWithClassName:ParseGoods];
+    [query whereKey:ParseGoodsGoodId equalTo:model.goodID];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if(error)
+        {
+            if(block)
+                block(nil, error);
+        }
+        else
+        {
+            if(block)
+                block([[GoodModel alloc] initWithPFObject:object], nil);
+        }
+    }];
+}
+
 @end

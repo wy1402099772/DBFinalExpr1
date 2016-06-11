@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class PurchaseLogModel;
+
 @interface PurchaseLogCollectionViewCell : UICollectionViewCell
+
+- (void)loadData:(PurchaseLogModel *)shoppingCart;
 
 @end

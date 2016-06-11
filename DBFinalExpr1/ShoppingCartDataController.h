@@ -9,11 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "GoodModel.h"
 #import "ShoppingCartModel.h"
+#import "PurchaseLogModel.h"
 
 typedef void (^ShoppingCartDataCompletion) (GoodModel *good, NSError *error);
 
 @interface ShoppingCartDataController : NSObject
 
 + (void)createGoodFromShopCart:(ShoppingCartModel *)model withBlock:(ShoppingCartDataCompletion)block;
+
++ (void)createGoodFromPurchaseLog:(PurchaseLogModel *)model withBlock:(ShoppingCartDataCompletion)block;
 
 @end

@@ -13,7 +13,7 @@
 #import "UIScrollView+EmptyDataSet.h"
 #import "PurchaseLogCollectionViewCell.h"
 #import "UserHelper.h"
-#import "ShoppingCartModel.h"
+#import "PurchaseLogModel.h"
 #import "MJRefresh.h"
 #import "UIView+Toast.h"
 
@@ -39,14 +39,14 @@ static NSUInteger CellInsets = 1;
 - (void)viewDidLoad
 {
     [self initView];
-    PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
-    [query whereKey:kParseShoppingCartUserName equalTo:[UserHelper sharedInstance].username];
+    PFQuery *query = [PFQuery queryWithClassName:kParsePurchaseLog];
+    [query whereKey:kParsePurchaseLogUserName equalTo:[UserHelper sharedInstance].username];
     WEAK_SELF;
     [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
         STRONG_SELF;
         NSLog(@"object :%@, \n error: %@", objects, error);
         for(PFObject *object in objects)
-            [self.modelArray addObject:[[ShoppingCartModel alloc] initWithPFObject:object]];
+            [self.modelArray addObject:[[PurchaseLogModel alloc] initWithPFObject:object]];
         [self.collectionView reloadData];
     }];
 }
@@ -75,79 +75,6 @@ static NSUInteger CellInsets = 1;
 
 #pragma mark - private
 
-- (void)didSelectShoppingBarButton:(UIBarButtonItem *)sender
-{
-    NSMutableArray *tmpArray = [NSMutableArray array];
-    for(ShoppingCartModel *model in self.modelArray)
-    {
-        if(model.selected == YES)
-            [tmpArray addObject:model];
-    }
-    if(tmpArray.count == 0)
-    {
-        [self.view makeToast:@"你没有选中任何物品，无法购买" duration:1.5f position:CSToastPositionCenter];
-    }
-    else
-    {
-        [[UserHelper sharedInstance] dealShoppingCart:[tmpArray copy] withBlock:^(NSError *error) {
-            
-            NSString *message;
-            if(error)
-            {
-                message = @"不是所有的都成功购买，依旧留在购物车中";
-            }
-            else
-            {
-                message = @"购买成功";
-            }
-            [self.view makeToast:message duration:1.5f position:CSToastPositionCenter];
-            
-            PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
-            [query whereKey:kParseShoppingCartUserName equalTo:[UserHelper sharedInstance].username];
-            WEAK_SELF;
-            [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
-                STRONG_SELF;
-                [self.modelArray removeAllObjects];
-                NSLog(@"object :%@, \n error: %@", objects, error);
-                for(PFObject *object in objects)
-                    [self.modelArray addObject:[[ShoppingCartModel alloc] initWithPFObject:object]];
-                [self.collectionView reloadData];
-            }];
-        }];
-    }
-}
-
-- (void)didSelectCancelBarButton:(UIBarButtonItem *)sender
-{
-    NSMutableArray *tmpArray = [NSMutableArray array];
-    for(ShoppingCartModel *model in self.modelArray)
-    {
-        if(model.selected == YES)
-            [tmpArray addObject:model];
-    }
-    if(tmpArray.count == 0)
-    {
-        [self.view makeToast:@"你没有选中任何物品，无法删除" duration:1.5f position:CSToastPositionCenter];
-    }
-    else
-    {
-        [[UserHelper sharedInstance] cancelShoppingCart:[tmpArray copy] withBlock:^(NSError *error) {
-            PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
-            [query whereKey:kParseShoppingCartUserName equalTo:[UserHelper sharedInstance].username];
-            WEAK_SELF;
-            [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
-                STRONG_SELF;
-                [self.modelArray removeAllObjects];
-                NSLog(@"object :%@, \n error: %@", objects, error);
-                for(PFObject *object in objects)
-                    [self.modelArray addObject:[[ShoppingCartModel alloc] initWithPFObject:object]];
-                [self.collectionView reloadData];
-            }];
-            [self.view makeToast:@"操作已完成" duration:1.5f position:CSToastPositionCenter];
-        }];
-    }
-}
-
 
 #pragma mark - UICollectionViewDelegate
 
@@ -161,7 +88,7 @@ static NSUInteger CellInsets = 1;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PurchaseLogCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:GoodsCollectionViewIdentifier forIndexPath:indexPath];
-//    [cell loadData:self.modelArray[indexPath.row]];
+    [cell loadData:self.modelArray[indexPath.row]];
     return cell;
 }
 
@@ -227,15 +154,15 @@ static NSUInteger CellInsets = 1;
         WEAK_SELF;
         _collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             STRONG_SELF;
-            PFQuery *query = [PFQuery queryWithClassName:kParseShoppingCart];
-            [query whereKey:kParseShoppingCartUserName equalTo:[UserHelper sharedInstance].username];
+            PFQuery *query = [PFQuery queryWithClassName:kParsePurchaseLog];
+            [query whereKey:kParsePurchaseLogUserName equalTo:[UserHelper sharedInstance].username];
             WEAK_SELF;
             [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
                 STRONG_SELF;
                 NSLog(@"object :%@, \n error: %@", objects, error);
                 [self.modelArray removeAllObjects];
                 for(PFObject *object in objects)
-                    [self.modelArray addObject:[[ShoppingCartModel alloc] initWithPFObject:object]];
+                    [self.modelArray addObject:[[PurchaseLogModel alloc] initWithPFObject:object]];
                 [self.collectionView reloadData];
                 [self.collectionView.mj_header endRefreshing];
             }];

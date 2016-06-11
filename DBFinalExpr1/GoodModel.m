@@ -23,6 +23,7 @@
         self.classify = [object objectForKey:ParseGoodsClassify];
         self.images = [object objectForKey:ParseGoodsImages];
         self.amount = [object objectForKey:ParseGoodStorageAmount];
+        self.sellerName = [object objectForKey:ParseGoodsSellerName];
     }
     return self;
 }

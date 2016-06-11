@@ -15,6 +15,7 @@
 #import "UserHelper.h"
 #import "ParseHeader.h"
 #import "SellerGalleyCollectionViewController.h"
+#import "PurchaseLogCollectionViewController.h"
 
 @interface AppDelegate ()
 
@@ -72,6 +73,9 @@
     UIViewController *thirdNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:thirdViewController];
     
+    PurchaseLogCollectionViewController *fourthViewController = [[PurchaseLogCollectionViewController alloc] init];
+    UIViewController *fourthNavigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:fourthViewController];
     
     CYLTabBarController *tabBarController = [[CYLTabBarController alloc] init];
     [self customizeTabBarForController:tabBarController];
@@ -81,7 +85,8 @@
         [tabBarController setViewControllers:@[
                                                firstNavigationController,
                                                secondNavigationController,
-                                               thirdNavigationController
+                                               thirdNavigationController,
+                                               fourthNavigationController
                                                ]];
     }
     else
@@ -89,6 +94,7 @@
         [tabBarController setViewControllers:@[
                                                firstNavigationController,
                                                secondNavigationController,
+                                               fourthNavigationController
                                                ]];
     }
     self.tabBarController = tabBarController;
@@ -118,14 +124,20 @@
                             CYLTabBarItemSelectedImage : @"image_main_good",
                             };
     
+    NSDictionary *dict4 = @{
+                            CYLTabBarItemTitle : @"购买记录",
+                            CYLTabBarItemImage : @"image_main_log",
+                            CYLTabBarItemSelectedImage : @"image_main_log",
+                            };
+    
     if([[UserHelper sharedInstance].type isEqualToString:kParseUserTypeSeller])
     {
-        NSArray *tabBarItemsAttributes = @[ dict1, dict2 , dict3];
+        NSArray *tabBarItemsAttributes = @[ dict1, dict2 , dict3, dict4];
         tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
     }
     else
     {
-        NSArray *tabBarItemsAttributes = @[ dict1, dict2];
+        NSArray *tabBarItemsAttributes = @[ dict1, dict2, dict4];
         tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
     }
 }
