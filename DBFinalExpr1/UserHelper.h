@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class PurchaseLogModel;
+
 typedef void (^CompletionBlock) (NSError *error);
 
 @interface UserHelper : NSObject
@@ -26,5 +28,7 @@ typedef void (^CompletionBlock) (NSError *error);
 - (void)cancelShoppingCart:(NSArray *)array withBlock:(CompletionBlock)block;
 
 - (void)dealShoppingCart:(NSArray *)array withBlock:(CompletionBlock)block;
+
+- (void)dealPurchaseLog:(PurchaseLogModel *)model withBlock:(CompletionBlock)block;
 
 @end

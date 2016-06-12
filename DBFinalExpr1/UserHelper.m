@@ -10,6 +10,7 @@
 #import <Parse/parse.h>
 #import "ParseHeader.h"
 #import "ShoppingCartModel.h"
+#import "PurchaseLogModel.h"
 
 @implementation UserHelper
 
@@ -126,6 +127,7 @@
                 [object1 setObject:[UserHelper sharedInstance].username forKey:kParsePurchaseLogUserName];
                 [object1 setObject:[object objectForKey:ParseGoodsSellerName] forKey:kParsePurchaseLogSellerName];
                 [object1 setObject:[NSDate date] forKey:kParsePurchaseLogDate];
+                [object1 setObject:kParsePurchaseLogStateOrder forKey:kParsePurchaseLogState];
                 
                 [object1 saveInBackground];
                 
@@ -151,4 +153,23 @@
     }
 }
 
+- (void)dealPurchaseLog:(PurchaseLogModel *)model withBlock:(CompletionBlock)block
+{
+    PFQuery *query = [PFQuery queryWithClassName:kParsePurchaseLog];
+    [query whereKey:@"objectId" equalTo:model.objectID];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if([model.state isEqualToString:kParsePurchaseLogStateOrder])
+        {
+            [object setObject:kParsePurchaseLogStateSend forKey:kParsePurchaseLogState];
+        }
+        else if([model.state isEqualToString:kParsePurchaseLogStateSend])
+        {
+            [object setObject:kParsePurchaseLogStateComplete forKey:kParsePurchaseLogState];
+        }
+        [object saveInBackgroundWithBlock:^(BOOL success, NSError *error1) {
+           if(block)
+               block(error1);
+        }];
+    }];
+}
 @end

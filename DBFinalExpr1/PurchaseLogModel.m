@@ -15,12 +15,15 @@
 {
     if(self = [super init])
     {
+        self.objectID = [object objectId];
         self.date = [object objectForKey:kParsePurchaseLogDate];
         self.purchasePrice = [object objectForKey:kParsePurchaseLogPrice];
         self.purchaseAmount = [object objectForKey:kParsePurchaseLogAmount];
         self.goodID = [object objectForKey:kParsePurchaseLogGoodID];
         self.goodName = [object objectForKey:kParsePurchaseLogGoodName];
         self.userName = [object objectForKey:kParsePurchaseLogUserName];
+        self.state = [object objectForKey:kParsePurchaseLogState];
+        
     }
     return self;
 }

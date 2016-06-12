@@ -16,6 +16,7 @@
 #import "CCommon.h"
 #import "UIView+Toast.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "UserHelper.h"
 
 @interface PurchaseLogCollectionViewCell ()
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) UILabel           *amountlabel;
 @property (nonatomic, strong) UILabel           *sellername;
 @property (nonatomic, strong) UILabel           *dateLabel;
+@property (nonatomic, strong) UIButton          *confirmButton;
 //@property (nonatomic, strong) UIButton           *selectButton;
 //@property (nonatomic, strong) UILabel            *storageLabel;
 
@@ -67,7 +69,7 @@
     [self.contentView addSubview:self.priceLabel];
     [self.priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nameLabel.mas_bottom).offset(5);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(20);
         make.left.equalTo(self.nameLabel.mas_left);
         make.width.mas_equalTo(100);
     }];
@@ -92,17 +94,25 @@
     [self.contentView addSubview:self.dateLabel];
     [self.dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.avatarImage.mas_right).offset(3);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(20);
         make.width.mas_equalTo(160);
-        make.bottom.equalTo(self.contentView).offset(-3);
+        make.bottom.equalTo(self.contentView).offset(-30);
     }];
     
     [self.contentView addSubview:self.amountlabel];
     [self.amountlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.dateLabel.mas_right).offset(8);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(20);
         make.right.equalTo(self.contentView.mas_right).offset(-8);
-        make.bottom.equalTo(self.contentView).offset(-3);
+        make.bottom.equalTo(self.contentView).offset(-30);
+    }];
+    
+    [self.contentView addSubview:self.confirmButton];
+    [self.confirmButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.amountlabel).offset(-3);
+        make.right.equalTo(self.contentView);
+        make.top.equalTo(self.amountlabel.mas_bottom).offset(3);
+        make.height.mas_equalTo(24);
     }];
     
 //    [self.avatarImage addSubview:self.storageLabel];
@@ -124,10 +134,40 @@
     switch (type) {
         case PurchaseControllerTypePurchase: {
             self.amountlabel.text = [NSString stringWithFormat:@"购买数量：%@", purchaseLog.purchaseAmount];
+            if([purchaseLog.state isEqualToString:kParsePurchaseLogStateOrder])
+            {
+                self.confirmButton.enabled = NO;
+                [self.confirmButton setTitle:@"等待发货" forState:UIControlStateNormal];
+            }
+            else if([purchaseLog.state isEqualToString:kParsePurchaseLogStateSend])
+            {
+                self.confirmButton.enabled = YES;
+                [self.confirmButton setTitle:@"确认收货" forState:UIControlStateNormal];
+            }
+            else if([purchaseLog.state isEqualToString:kParsePurchaseLogStateComplete])
+            {
+                self.confirmButton.enabled = NO;
+                [self.confirmButton setTitle:@"订单已完成" forState:UIControlStateNormal];
+            }
             break;
         }
         case PurchaseControllerTypeSell: {
             self.amountlabel.text = [NSString stringWithFormat:@"卖出数量：%@", purchaseLog.purchaseAmount];
+            if([purchaseLog.state isEqualToString:kParsePurchaseLogStateOrder])
+            {
+                self.confirmButton.enabled = YES;
+                [self.confirmButton setTitle:@"确认发货" forState:UIControlStateNormal];
+            }
+            else if([purchaseLog.state isEqualToString:kParsePurchaseLogStateSend])
+            {
+                self.confirmButton.enabled = NO;
+                [self.confirmButton setTitle:@"已发货" forState:UIControlStateNormal];
+            }
+            else if([purchaseLog.state isEqualToString:kParsePurchaseLogStateComplete])
+            {
+                self.confirmButton.enabled = NO;
+                [self.confirmButton setTitle:@"订单已完成" forState:UIControlStateNormal];
+            }
             break;
         }
     }
@@ -144,6 +184,7 @@
     //输出currentDateString
     NSLog(@"%@",currentDateString);
     self.dateLabel.text = currentDateString;
+    
     
     [ShoppingCartDataController createGoodFromPurchaseLog:purchaseLog withBlock:^(GoodModel *good, NSError *error) {
         if(error)
@@ -175,6 +216,21 @@
 //            else
 //                self.storageLabel.text = @"库存不足";
         }
+    }];
+}
+
+#pragma mark - private
+
+- (void)confirmAction:(UIButton *)sender
+{
+    [[UserHelper sharedInstance] dealPurchaseLog:self.purchaseLog withBlock:^(NSError *error) {
+        NSString *message;
+        if(error)
+            message = @"操作失败";
+        else
+            message = @"操作成功";
+        [[CCommon getTopmostViewController].view makeToast:message duration:1.5f position:CSToastPositionCenter];
+            
     }];
 }
 
@@ -239,6 +295,18 @@
         _dateLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:15];
     }
     return _dateLabel;
+}
+
+- (UIButton *)confirmButton
+{
+    if(!_confirmButton)
+    {
+        _confirmButton = [UIButton new];
+        [_confirmButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_confirmButton setBackgroundColor:[UIColor colorWithRed:1.000 green:0.033 blue:0.015 alpha:0.100]];
+        [_confirmButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _confirmButton;
 }
 
 //- (UIButton *)selectButton

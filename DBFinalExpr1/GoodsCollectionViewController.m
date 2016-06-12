@@ -74,7 +74,7 @@ static NSUInteger CellInsets = 1;
         make.top.equalTo(self.searchBar.mas_bottom);
         make.right.equalTo(self.view);
         make.left.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-40);
     }];
 }
 

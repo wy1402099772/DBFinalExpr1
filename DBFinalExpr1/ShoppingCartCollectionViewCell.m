@@ -122,7 +122,10 @@
             if(shoppingCart.amount <= good.amount)
                 self.storageLabel.hidden = YES;
             else
+            {
                 self.storageLabel.text = @"库存不足";
+                self.storageLabel.hidden = NO;
+            }
         }
     }];
 }

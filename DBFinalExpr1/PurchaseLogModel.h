@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSNumber *purchasePrice;
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSString *state;
+@property (nonatomic, strong) NSString *objectID;
 
 - (instancetype)initWithPFObject:(PFObject *)object;
 
