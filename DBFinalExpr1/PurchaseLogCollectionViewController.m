@@ -45,11 +45,29 @@ static NSUInteger CellInsets = 1;
     return self;
 }
 
+- (instancetype)init
+{
+    if(self = [super init])
+    {
+        self.type = PurchaseControllerTypePurchase;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [self initView];
     PFQuery *query = [PFQuery queryWithClassName:kParsePurchaseLog];
-    [query whereKey:kParsePurchaseLogUserName equalTo:[UserHelper sharedInstance].username];
+    switch (self.type) {
+        case PurchaseControllerTypePurchase: {
+            [query whereKey:kParsePurchaseLogUserName equalTo:[UserHelper sharedInstance].username];
+            break;
+        }
+        case PurchaseControllerTypeSell: {
+            [query whereKey:kParsePurchaseLogSellerName equalTo:[UserHelper sharedInstance].username];
+            break;
+        }
+    }
     WEAK_SELF;
     [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
         STRONG_SELF;
@@ -63,7 +81,16 @@ static NSUInteger CellInsets = 1;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.title = @"购买记录";
+    switch (self.type) {
+        case PurchaseControllerTypePurchase: {
+            self.navigationItem.title = @"购买记录";
+            break;
+        }
+        case PurchaseControllerTypeSell: {
+            self.navigationItem.title = @"出售记录";
+            break;
+        }
+    }
     
 //    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"image_barbutton_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(didSelectCancelBarButton:)];
 //    
@@ -97,7 +124,7 @@ static NSUInteger CellInsets = 1;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PurchaseLogCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:GoodsCollectionViewIdentifier forIndexPath:indexPath];
-    [cell loadData:self.modelArray[indexPath.row]];
+    [cell loadData:self.modelArray[indexPath.row] withCellMode:self.type];
     return cell;
 }
 
@@ -164,7 +191,16 @@ static NSUInteger CellInsets = 1;
         _collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             STRONG_SELF;
             PFQuery *query = [PFQuery queryWithClassName:kParsePurchaseLog];
-            [query whereKey:kParsePurchaseLogUserName equalTo:[UserHelper sharedInstance].username];
+            switch (self.type) {
+                case PurchaseControllerTypePurchase: {
+                    [query whereKey:kParsePurchaseLogUserName equalTo:[UserHelper sharedInstance].username];
+                    break;
+                }
+                case PurchaseControllerTypeSell: {
+                    [query whereKey:kParsePurchaseLogSellerName equalTo:[UserHelper sharedInstance].username];
+                    break;
+                }
+            }
             WEAK_SELF;
             [query findObjectsInBackgroundWithBlock:^(NSArray *_Nullable objects, NSError * _Nullable error) {
                 STRONG_SELF;

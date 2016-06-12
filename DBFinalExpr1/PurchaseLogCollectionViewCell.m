@@ -24,6 +24,7 @@
 @property (nonatomic, strong) UIImageView       *avatarImage;
 @property (nonatomic, strong) UILabel           *amountlabel;
 @property (nonatomic, strong) UILabel           *sellername;
+@property (nonatomic, strong) UILabel           *dateLabel;
 //@property (nonatomic, strong) UIButton           *selectButton;
 //@property (nonatomic, strong) UILabel            *storageLabel;
 
@@ -88,12 +89,20 @@
 //        make.bottom.equalTo(self.contentView).offset(-8);
 //    }];
     
+    [self.contentView addSubview:self.dateLabel];
+    [self.dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.avatarImage.mas_right).offset(3);
+        make.height.mas_equalTo(40);
+        make.width.mas_equalTo(160);
+        make.bottom.equalTo(self.contentView).offset(-3);
+    }];
+    
     [self.contentView addSubview:self.amountlabel];
     [self.amountlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(140);
+        make.left.equalTo(self.dateLabel.mas_right).offset(8);
         make.height.mas_equalTo(40);
         make.right.equalTo(self.contentView.mas_right).offset(-8);
-        make.bottom.equalTo(self.contentView).offset(-8);
+        make.bottom.equalTo(self.contentView).offset(-3);
     }];
     
 //    [self.avatarImage addSubview:self.storageLabel];
@@ -107,14 +116,34 @@
 
 #pragma mark - public
 
-- (void)loadData:(PurchaseLogModel *)purchaseLog
+- (void)loadData:(PurchaseLogModel *)purchaseLog withCellMode:(PurchaseControllerType)type
 {
     [self configureView];
     self.purchaseLog = purchaseLog;
 //    [self.selectButton setSelected:shoppingCart.selected];
-    self.amountlabel.text = [NSString stringWithFormat:@"购买数量：%@", purchaseLog.purchaseAmount];
+    switch (type) {
+        case PurchaseControllerTypePurchase: {
+            self.amountlabel.text = [NSString stringWithFormat:@"购买数量：%@", purchaseLog.purchaseAmount];
+            break;
+        }
+        case PurchaseControllerTypeSell: {
+            self.amountlabel.text = [NSString stringWithFormat:@"卖出数量：%@", purchaseLog.purchaseAmount];
+            break;
+        }
+    }
     self.priceLabel.text = [NSString stringWithFormat:@"成交价格：%@", purchaseLog.purchasePrice];
     self.nameLabel.text = purchaseLog.goodName;
+    
+    NSDate *currentDate = purchaseLog.date;
+    //用于格式化NSDate对象
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设置格式：zzz表示时区
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    //NSDate转NSString
+    NSString *currentDateString = [dateFormatter stringFromDate:currentDate];
+    //输出currentDateString
+    NSLog(@"%@",currentDateString);
+    self.dateLabel.text = currentDateString;
     
     [ShoppingCartDataController createGoodFromPurchaseLog:purchaseLog withBlock:^(GoodModel *good, NSError *error) {
         if(error)
@@ -124,7 +153,16 @@
         }
         else
         {
-            self.sellername.text = [NSString stringWithFormat:@"卖家：%@", good.sellerName];
+            switch (type) {
+                case PurchaseControllerTypePurchase: {
+                    self.sellername.text = [NSString stringWithFormat:@"卖家：%@", good.sellerName];
+                    break;
+                }
+                case PurchaseControllerTypeSell: {
+                    self.sellername.text = [NSString stringWithFormat:@"买家：%@", purchaseLog.userName];
+                    break;
+                }
+            }
             
             if(good.images.count)
                 [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:(NSString *)good.images[0]] placeholderImage:[[UIImage imageNamed:@"Image_goods_default"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate]];
@@ -179,6 +217,7 @@
     if(!_amountlabel)
     {
         _amountlabel = [[UILabel alloc] init];
+        _amountlabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:15];
     }
     return _amountlabel;
 }
@@ -190,6 +229,16 @@
         _sellername = [[UILabel alloc] init];
     }
     return _sellername;
+}
+
+- (UILabel *)dateLabel
+{
+    if(!_dateLabel)
+    {
+        _dateLabel = [UILabel new];
+        _dateLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:15];
+    }
+    return _dateLabel;
 }
 
 //- (UIButton *)selectButton

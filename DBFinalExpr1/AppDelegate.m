@@ -73,9 +73,13 @@
     UIViewController *thirdNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:thirdViewController];
     
-    PurchaseLogCollectionViewController *fourthViewController = [[PurchaseLogCollectionViewController alloc] init];
+    PurchaseLogCollectionViewController *fourthViewController = [[PurchaseLogCollectionViewController alloc] initWithType:PurchaseControllerTypePurchase];
     UIViewController *fourthNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:fourthViewController];
+    
+    PurchaseLogCollectionViewController *fifthViewController = [[PurchaseLogCollectionViewController alloc] initWithType:PurchaseControllerTypeSell];
+    UIViewController *fifthNavigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:fifthViewController];
     
     CYLTabBarController *tabBarController = [[CYLTabBarController alloc] init];
     [self customizeTabBarForController:tabBarController];
@@ -86,7 +90,8 @@
                                                firstNavigationController,
                                                secondNavigationController,
                                                thirdNavigationController,
-                                               fourthNavigationController
+                                               fourthNavigationController,
+                                               fifthNavigationController,
                                                ]];
     }
     else
@@ -94,7 +99,7 @@
         [tabBarController setViewControllers:@[
                                                firstNavigationController,
                                                secondNavigationController,
-                                               fourthNavigationController
+                                               fourthNavigationController,
                                                ]];
     }
     self.tabBarController = tabBarController;
@@ -130,9 +135,15 @@
                             CYLTabBarItemSelectedImage : @"image_main_log",
                             };
     
+    NSDictionary *dict5 = @{
+                            CYLTabBarItemTitle : @"售出记录",
+                            CYLTabBarItemImage : @"image_main_sell",
+                            CYLTabBarItemSelectedImage : @"image_main_sell",
+                            };
+    
     if([[UserHelper sharedInstance].type isEqualToString:kParseUserTypeSeller])
     {
-        NSArray *tabBarItemsAttributes = @[ dict1, dict2 , dict3, dict4];
+        NSArray *tabBarItemsAttributes = @[ dict1, dict2 , dict3, dict4, dict5];
         tabBarController.tabBarItemsAttributes = tabBarItemsAttributes;
     }
     else

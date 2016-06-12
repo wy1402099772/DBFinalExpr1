@@ -39,5 +39,6 @@
 #define     kParsePurchaseLogAmount     @"amount"
 #define     kParsePurchaseLogPrice      @"price"
 #define     kParsePurchaseLogSellerName @"sellername"
+#define     kParsePurchaseLogDate       @"purchaseDate"
 
 #endif /* ParseHeader_h */

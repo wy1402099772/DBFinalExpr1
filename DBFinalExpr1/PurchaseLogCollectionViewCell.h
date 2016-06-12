@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PurchaseLogCollectionViewController.h"
 
 @class PurchaseLogModel;
 
 @interface PurchaseLogCollectionViewCell : UICollectionViewCell
 
-- (void)loadData:(PurchaseLogModel *)shoppingCart;
+- (void)loadData:(PurchaseLogModel *)shoppingCart withCellMode:(PurchaseControllerType)type;
 
 @end

@@ -15,6 +15,7 @@
 {
     if(self = [super init])
     {
+        self.date = [object objectForKey:kParsePurchaseLogDate];
         self.purchasePrice = [object objectForKey:kParsePurchaseLogPrice];
         self.purchaseAmount = [object objectForKey:kParsePurchaseLogAmount];
         self.goodID = [object objectForKey:kParsePurchaseLogGoodID];
