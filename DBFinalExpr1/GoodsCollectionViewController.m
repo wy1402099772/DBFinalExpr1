@@ -25,10 +25,11 @@ static CGFloat minimumInteritemSpacing = 4;
 static NSUInteger collectionViewDisplayMode = 2;
 static NSUInteger CellInsets = 1;
 
-@interface GoodsCollectionViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface GoodsCollectionViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *modelArray;
+@property (nonatomic, strong) UISearchBar *searchBar;
 
 @end
 
@@ -60,9 +61,20 @@ static NSUInteger CellInsets = 1;
 
 - (void)initView
 {
+    [self.view addSubview:self.searchBar];
+    [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.view.mas_width);
+        make.left.equalTo(self.view);
+        make.top.equalTo(self.view).offset(64);
+        make.height.mas_equalTo(44);
+    }];
+    
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(self.searchBar.mas_bottom);
+        make.right.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.bottom.equalTo(self.view);
     }];
 }
 
@@ -133,6 +145,37 @@ static NSUInteger CellInsets = 1;
 }
 #pragma mark - DZNEmptyDataSetDelegate
 
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+//    [self.modelArray removeAllObjects];
+//    [self.collectionView reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    searchText = searchText.lowercaseString;
+    PFQuery *query0 = [PFQuery queryWithClassName:ParseGoods];
+    [query0 whereKey:ParseGoodsName containsString:searchText];
+    
+    PFQuery *query1 = [PFQuery queryWithClassName:ParseGoods];
+    [query1 whereKey:ParseGoodsSellerName containsString:searchText];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[query0, query1]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray  *objects, NSError *error) {
+        NSLog(@"object :%@, \n error: %@", objects, error);
+        [self.modelArray removeAllObjects];
+        for(PFObject *object in objects)
+            [self.modelArray addObject:[[GoodModel alloc] initWithPFObject:object]];
+        [self.collectionView.mj_header endRefreshing];
+        [self.collectionView reloadData];
+    }];
+}
+
+
+
 #pragma mark - getter
 
 - (UICollectionView *)collectionView
@@ -177,4 +220,18 @@ static NSUInteger CellInsets = 1;
     }
     return _modelArray;
 }
+
+- (UISearchBar *)searchBar
+{
+    if(!_searchBar)
+    {
+        _searchBar = [[UISearchBar alloc] init];
+        self.searchBar.delegate = self;
+        self.searchBar.backgroundColor = [UIColor whiteColor];
+        self.searchBar.placeholder = NSLocalizedString(@"Type good's name to search", nil);
+        self.searchBar.tintColor = [UIColor greenColor];
+    }
+    return _searchBar;
+}
+
 @end
